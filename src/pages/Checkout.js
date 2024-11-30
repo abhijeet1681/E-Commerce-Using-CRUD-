@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './Checkout.css';
 
@@ -11,7 +11,7 @@ const Checkout = () => {
   });
 
   const navigate = useNavigate();
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -63,6 +63,22 @@ const Checkout = () => {
         <button type="submit">Place Order</button>
       </form>
     </div>
+  );
+};
+
+export const CartContext = createContext();
+
+export const CartProvider = ({ children }) => {
+  const [cart, setCart] = useState([]);
+
+  const addToCart = (product) => {
+    setCart((prevCart) => [...prevCart, product]);
+  };
+
+  return (
+    <CartContext.Provider value={{ cart, addToCart }}>
+      {children}
+    </CartContext.Provider>
   );
 };
 

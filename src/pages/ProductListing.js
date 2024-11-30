@@ -1,19 +1,30 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-import { CartContext } from "../context/CartContext"; // Import CartContext
+import { CartContext } from "../context/CartContext";
 import "./ProductListing.css"; // Your CSS file for styling
 
 const ProductListing = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showPopup, setShowPopup] = useState(false); // State to control the pop-up visibility
-  const [popupMessage, setPopupMessage] = useState(""); // Message for the pop-up
-  
-  // Access the CartContext
+  const [exchangeRate, setExchangeRate] = useState(1); // For USD to INR conversion
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
   const { addToCart } = useContext(CartContext);
 
-  // Fetch products from the API
   useEffect(() => {
+    const fetchExchangeRate = async () => {
+      try {
+        const response = await fetch(
+          "https://api.exchangerate-api.com/v4/latest/USD"
+        );
+        const data = await response.json();
+        setExchangeRate(data.rates.INR);
+      } catch (error) {
+        console.error("Error fetching exchange rate:", error);
+      }
+    };
+
     const fetchProducts = async () => {
       try {
         const response = await fetch("https://fakestoreapi.com/products");
@@ -26,16 +37,16 @@ const ProductListing = () => {
       }
     };
 
+    fetchExchangeRate();
     fetchProducts();
   }, []);
 
-  // Handle adding product to cart using the CartContext function
   const handleAddToCart = (product) => {
-    addToCart(product); // This adds the product to the cart state managed by CartContext
-    setPopupMessage(`${product.title} added to cart!`); // Set the pop-up message
-    setShowPopup(true); // Show the pop-up
+    addToCart(product);
+    setPopupMessage(`${product.title} added to cart!`);
+    setShowPopup(true);
     setTimeout(() => {
-      setShowPopup(false); // Hide the pop-up after 3 seconds
+      setShowPopup(false);
     }, 3000);
   };
 
@@ -43,7 +54,6 @@ const ProductListing = () => {
     <div className="product-listing">
       <h1>All Products</h1>
 
-      {/* Success pop-up message */}
       {showPopup && (
         <div className="popup">
           <p>{popupMessage}</p>
@@ -58,9 +68,11 @@ const ProductListing = () => {
             <div key={product.id} className="product-card">
               <Link to={`/products/${product.id}`}>
                 <img src={product.image} alt={product.title} />
-                <h2>{product.title}</h2>
               </Link>
-              <p>Rs.{product.price}</p>
+              <div className="product-info">
+                <h2 className="product-title">{product.title}</h2>
+                <p className="product-price">₹{(product.price * exchangeRate).toFixed(2)}</p>
+              </div>
               <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
             </div>
           ))}
