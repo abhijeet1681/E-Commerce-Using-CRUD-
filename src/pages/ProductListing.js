@@ -1,16 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
+import { SearchContext } from "../context/SearchContext"; // Import the SearchContext
 import "./ProductListing.css"; // Your CSS file for styling
 
 const ProductListing = () => {
-  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const [exchangeRate, setExchangeRate] = useState(1); // For USD to INR conversion
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { addToCart } = useContext(CartContext);
+  const { setSearchQuery: setSearchContextQuery } = useContext(SearchContext); // Use SearchContext for search functionality
 
   useEffect(() => {
     const fetchExchangeRate = async () => {
@@ -27,9 +32,25 @@ const ProductListing = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const data = await response.json();
-        setProducts(data);
+        const responses = await Promise.all([
+          fetch("https://fakestoreapi.com/products"),
+          fetch("https://dummyjson.com/products"),
+        ]);
+        const data = await Promise.all(responses.map((res) => res.json()));
+        const allProducts = [
+          ...data[0], // Products from fakestoreapi
+          ...data[1].products, // Products from dummyjson
+        ];
+
+        // Set filteredProducts to all products initially
+        setFilteredProducts(allProducts);
+
+        // Extract unique categories
+        const uniqueCategories = [
+          "all",
+          ...new Set(allProducts.map((product) => product.category || "Others")),
+        ];
+        setCategories(uniqueCategories);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -50,9 +71,48 @@ const ProductListing = () => {
     }, 3000);
   };
 
+  const handleSearch = () => {
+    setSearchContextQuery(searchQuery); // Update the search context
+  };
+
+  // Effect to filter products based on the search query and selected category
+  useEffect(() => {
+    if (selectedCategory !== "all") {
+      setFilteredProducts((prevProducts) =>
+        prevProducts.filter((product) => product.category === selectedCategory)
+      );
+    }
+  }, [selectedCategory]);
+
   return (
     <div className="product-listing">
-      <h1>All Products</h1>
+      <div className="filter-search-container">
+        <div className="filter-section">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="filter-select"
+          >
+            {categories.map((category, index) => (
+              <option key={index} value={category}>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="search-section">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="search-input"
+          />
+          <button onClick={handleSearch} className="search-button">
+            Search
+          </button>
+        </div>
+      </div>
 
       {showPopup && (
         <div className="popup">
@@ -64,18 +124,39 @@ const ProductListing = () => {
         <p>Loading products...</p>
       ) : (
         <div className="product-grid">
-          {products.map((product) => (
-            <div key={product.id} className="product-card">
-              <Link to={`/products/${product.id}`}>
-                <img src={product.image} alt={product.title} />
-              </Link>
-              <div className="product-info">
-                <h2 className="product-title">{product.title}</h2>
-                <p className="product-price">₹{(product.price * exchangeRate).toFixed(2)}</p>
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div key={product.id} className="product-card">
+                <Link to={`/products/${product.id}`}>
+                  {/* Display a placeholder image if product.image is not valid */}
+                  <img
+                    src={
+                      product.image &&
+                      (product.image.startsWith("http") || product.image.startsWith("https"))
+                        ? product.image
+                        : "https://via.placeholder.com/150" // Fallback placeholder image
+                    }
+                    alt={product.title}
+                    className="product-image"
+                  />
+                </Link>
+                <div className="product-info">
+                  <h2 className="product-title">{product.title}</h2>
+                  <p className="product-price">
+                    ₹{(product.price * exchangeRate).toFixed(2)}
+                  </p>
+                  {/* {product.rating && (
+                    <p className="product-rating">
+                      ★ {product.rating.rate || product.rating}
+                    </p> */}
+                  {/* )} */}
+                </div>
+                <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
               </div>
-              <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No products match the selected filters.</p>
+          )}
         </div>
       )}
     </div>

@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [extraProducts, setExtraProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery] = useState("");
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Fetch products from multiple APIs
+  const heroImages = [
+    "https://flipshope.com/blog/wp-content/uploads/2023/10/Flipkart-big-billion-days-date.jpg",
+    "https://cdn.flipshope.com/blog/wp-content/uploads/2023/12/Flipkart-New-year-sale.jpg",
+    "https://i.pinimg.com/736x/6e/22/7a/6e227ab8b1c3ce20db00c1a813b7bf05.jpg",
+  ];
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Fetch from the first API
         const response1 = await fetch("https://fakestoreapi.com/products");
         const data1 = await response1.json();
 
-        // Fetch from the second API
         const response2 = await fetch("https://dummyjson.com/products?limit=10");
         const data2 = await response2.json();
 
-        setProducts(data1); // Set main products
-        setExtraProducts(data2.products); // Set additional products
+        setProducts(data1);
+        setExtraProducts(data2.products);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -30,72 +37,73 @@ const Home = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const filteredExtraProducts = extraProducts.filter((product) =>
+    product.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   if (loading) {
-    return <p>Loading...</p>;
+    return <p>Loading products, please wait...</p>;
   }
 
   return (
     <div className="home">
-      {/* Advertisement Section */}
-      <div className="advertisement">
-        <img
-          src="https://scontent.fbom17-1.fna.fbcdn.net/v/t39.30808-6/252289542_1061020348058847_4410264622551310398_n.png?_nc_cat=102&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=OZjOnlMYOsUQ7kNvgEz314O&_nc_zt=23&_nc_ht=scontent.fbom17-1.fna&_nc_gid=A_hN7E5VXDetkjwyLNhURCk&oh=00_AYCMLmAOfkzzapflPbeG5nMGcaIe67UoobCdaBNfxMu-GQ&oe=6750F4EB"
-          alt="Advertisement"
-          className="advertisement-image"
-        />
-        <div className="advertisement-text">
-          <h2>Big Sale on Top Brands!</h2>
-          <p>Don't miss out on amazing deals. Shop now and save big!</p>
-        </div>
-      </div>
+      <div
+        className="hero-banner"
+        style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
+      ></div>
 
-      {/* Featured Products Section */}
       <div className="featured-products">
-        <h2>Our Products</h2>
+        <h2>{filteredProducts.length > 0 ? "Our Products" : "No Products Found"}</h2>
         <div className="product-grid">
-          {products.map((product) => (
-            <div key={product.id} className="product-card">
-              <img src={product.image} alt={product.title} />
-              <h3>{product.title}</h3>
-              <p>₹{(product.price * 80).toFixed(2)}</p> {/* Assuming 1 USD = 80 INR */}
-              <button>Add to Cart</button>
-            </div>
-          ))}
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div key={product.id} className="product-card">
+                <img src={product.image} alt={product.title} />
+                <h3>{product.title}</h3>
+                <p>₹{(product.price * 80).toFixed(2)}</p>
+                <Link to={`/product-details/${product.id}`}>
+                  <button>View Details</button>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>No products match your search.</p>
+          )}
         </div>
       </div>
 
-      {/* Extra Products Section */}
       <div className="extra-products">
-        <h2>More Products</h2>
+        <h2>{filteredExtraProducts.length > 0 ? "More Products" : "No More Products Found"}</h2>
         <div className="product-grid">
-          {extraProducts.map((product) => (
-            <div key={product.id} className="product-card">
-              <img src={product.thumbnail} alt={product.title} />
-              <h3>{product.title}</h3>
-              <p>₹{(product.price * 80).toFixed(2)}</p>
-              <button>Add to Cart</button>
-            </div>
-          ))}
+          {filteredExtraProducts.length > 0 ? (
+            filteredExtraProducts.map((product) => (
+              <div key={product.id} className="product-card">
+                <img src={product.thumbnail} alt={product.title} />
+                <h3>{product.title}</h3>
+                <p>₹{(product.price * 80).toFixed(2)}</p>
+                <Link to={`/product-details/${product.id}`}>
+                  <button>View Details</button>
+                </Link>
+              </div>
+            ))
+          ) : (
+            <p>No more products match your search.</p>
+          )}
         </div>
       </div>
 
-      {/* Footer Section */}
-      <footer className="footer">
-        <div className="contact-us">
-          <h3>Contact Us</h3>
-          <p>Email: support@store.com</p>
-          <p>Phone: +91 12345 67890</p>
-          <p>Address: 123, Shopping Lane, Cityville, India</p>
-        </div>
-        <div className="about-us">
-          <h3>About Us</h3>
-          <p>
-            Welcome to our store! We are committed to bringing you the best
-            products at unbeatable prices. Explore our wide range of categories
-            and enjoy a seamless shopping experience.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

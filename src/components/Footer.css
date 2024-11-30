@@ -1,0 +1,49 @@
+.footer-apps{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin: auto;
+    background-color: black;
+    color: white;
+    display: flex;
+    text-align: left;
+    justify-content: space-evenly;
+  }
+  .footer-apps p {
+    margin-bottom: 10px;
+    color: #9a9b9e;
+  }
+  .second-footer{
+    padding: 30px;
+    text-align: center;
+    font-weight: 10px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #f6a247;
+    /* 41536 */
+  }
+  .appstore, .playstore{
+    height: 48px;
+    max-width: 160px;
+    margin: auto;
+  }
+  .button{
+    text-align: center;
+    padding: 15px;
+    background-color: rgb(235, 177, 122);
+    margin:20px 20px 20px 20px;
+  }
+  .button,button{
+    color: black;
+    font-weight: 20px;
+    border: none;
+  }
+  .footer {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }

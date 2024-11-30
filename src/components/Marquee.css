@@ -1,0 +1,37 @@
+/* Marquee.css */
+.main {
+    text-align: center;
+  }
+  
+  .marq {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    animation: scroll 10s linear infinite; /* Controls scrolling */
+  }
+  
+  .geek1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+    padding-bottom: 10px;
+    margin-right: 30px; /* Spacing between text */
+  }
+  
+  .geek2 {
+    font-size: 24px;
+    color: white;
+  }
+  
+  /* Animation for the scrolling effect */
+  @keyframes scroll {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+  

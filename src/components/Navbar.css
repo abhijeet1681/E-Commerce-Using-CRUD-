@@ -1,41 +1,84 @@
-@media (max-width: 768px) {
-    .product-grid {
-      grid-template-columns: 1fr;
-    }
-  
-    nav {
-      flex-direction: column;
-      text-align: center;
-    }
-  }
-  
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #007BFF;
-    color: white;
-    padding: 1rem 2rem;
-  }
-  
-  nav a {
-    color: white;
-    margin: 0 1rem;
-    font-weight: bold;
-  }
-  
-  .cart-icon {
-    position: relative;
-  }
-  
-  .cart-icon span {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: red;
-    color: white;
-    border-radius: 50%;
-    padding: 0.3rem;
-    font-size: 0.8rem;
-  }
-  
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  background: linear-gradient(90deg, #ff9933, #ffffff, #138808); /* India's tricolor gradient */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo styling */
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000000;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+/* Navigation links */
+.nav-link {
+  color: #000000;
+  text-decoration: none;
+  margin: 0 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  color: #000000; /* Highlight on hover */
+}
+
+/* Center search bar */
+.navbar-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar {
+  width: 50%;
+  max-width: 500px;
+  padding: 8px 12px;
+  border: 1px solid #000000;
+  border-radius: 20px;
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-bar:focus {
+  border-color: #000000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Right-side icons and buttons */
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.cart-link {
+  display: flex;
+  align-items: center;
+  color: #000000;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 15px;
+  transition: color 0.3s ease-in-out;
+}
+
+.cart-link:hover {
+  color: #000000;
+}
+
+.cart-icon {
+  margin-right: 5px;
+  font-size: 1.2rem;
+}

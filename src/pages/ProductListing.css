@@ -76,3 +76,117 @@
   z-index: 9999;
   animation: slideIn 0.5s ease-out;
 }
+.filters-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.filter-section,
+.search-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-dropdown,
+.search-bar {
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.search-bar {
+  width: 200px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.apply-button-small,
+.reset-button-small {
+  padding: 0.3rem 0.8rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.apply-button-small {
+  background-color: #007bff; /* Blue */
+  color: white;
+}
+
+.reset-button-small {
+  background-color: #ffc107; /* Yellow */
+  color: black;
+}
+
+.apply-button-small:hover {
+  background-color: #0056b3; /* Darker Blue */
+}
+
+.reset-button-small:hover {
+  background-color: #e0a800; /* Darker Yellow */
+}
+.filter-search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-section {
+  flex: 1;
+  text-align: left;
+}
+
+.filter-select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.search-input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+  margin-right: 8px;
+}
+
+.search-button {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+
+.product-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
