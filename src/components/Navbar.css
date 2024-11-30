@@ -1,0 +1,41 @@
+@media (max-width: 768px) {
+    .product-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    nav {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007BFF;
+    color: white;
+    padding: 1rem 2rem;
+  }
+  
+  nav a {
+    color: white;
+    margin: 0 1rem;
+    font-weight: bold;
+  }
+  
+  .cart-icon {
+    position: relative;
+  }
+  
+  .cart-icon span {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+  }
+  

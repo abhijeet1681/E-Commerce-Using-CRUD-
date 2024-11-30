@@ -1,0 +1,131 @@
+@media (max-width: 768px) {
+    .product-grid, .featured-products {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+  }
+  
+.cart-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 1rem;
+  }
+  
+  .cart-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .cart-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem 0;
+  }
+  
+  .cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+  
+  .cart-item-details {
+    flex-grow: 1;
+    margin-left: 1rem;
+  }
+  
+  .cart-item-details p {
+    margin: 0.5rem 0;
+  }
+  
+  .quantity {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .quantity input {
+    width: 50px;
+    text-align: center;
+  }
+  
+  .remove-btn {
+    background-color: red;
+    color: white;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cart-summary {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .cart-summary .address {
+    margin-bottom: 3rem;
+  }
+  
+  .cart-summary textarea {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .payment-method {
+    margin-bottom: 1rem;
+  }
+  
+  .payment-method label {
+    display: inline-block;
+    margin: 0.5rem ;
+  }
+  
+  .total-amount {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .proceed-btn {
+    width: 100%;
+    padding: 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .proceed-btn:hover {
+    background-color: #218838;
+  }
+  
+  .proceed-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+
+
+
+
+
+  .radio-container {
+  display: flex;
+  align-items: center;
+}
+
+.radio-container input[type="radio"] {
+  margin-right: 10px; /* Space between radio button and label */
+}
+
+.total-amount {
+  margin-top: 20px;
+}
