@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { SearchContext } from "../context/SearchContext"; // Import the SearchContext
+import Footer from "../components/Footer"; // Import the Footer component
 import "./ProductListing.css"; // Your CSS file for styling
 
 const ProductListing = () => {
@@ -85,6 +86,7 @@ const ProductListing = () => {
   }, [selectedCategory]);
 
   return (
+    <div className="product-page">
     <div className="product-listing">
       <div className="filter-search-container">
         <div className="filter-section">
@@ -145,11 +147,6 @@ const ProductListing = () => {
                   <p className="product-price">
                     ₹{(product.price * exchangeRate).toFixed(2)}
                   </p>
-                  {/* {product.rating && (
-                    <p className="product-rating">
-                      ★ {product.rating.rate || product.rating}
-                    </p> */}
-                  {/* )} */}
                 </div>
                 <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
               </div>
@@ -159,6 +156,9 @@ const ProductListing = () => {
           )}
         </div>
       )}
+      
+    </div>
+    <Footer /> {/* Add Footer component here */}
     </div>
   );
 };

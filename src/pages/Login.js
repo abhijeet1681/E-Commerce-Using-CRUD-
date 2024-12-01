@@ -11,6 +11,14 @@ const Login = ({ setIsLoggedIn, setUsername }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    const userName = "John Doe";
+    const userEmail = "johndoe@example.com";
+
+    localStorage.setItem("userName", userName);
+    localStorage.setItem("userEmail", userEmail);
+
+    setIsLoggedIn(true);
+    navigate("/");
     const storedEmail = localStorage.getItem("userEmail");
     const storedPassword = localStorage.getItem("userPassword");
 

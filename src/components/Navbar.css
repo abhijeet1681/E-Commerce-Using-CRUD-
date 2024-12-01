@@ -40,6 +40,12 @@
   display: flex;
   justify-content: center;
 }
+.welcome-message {
+  margin-right: 1rem;
+  font-size: 1rem;
+  color: #333;
+  font-weight: bold;
+}
 
 .search-bar {
   width: 50%;

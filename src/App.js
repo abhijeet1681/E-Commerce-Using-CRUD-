@@ -15,13 +15,14 @@ import { SearchProvider } from './context/SearchContext';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  const [ setUsername] = useState("");
 
   return (
     <SearchProvider>
       <Router>
-        <Navbar username={username} />
-        {/* <Navbar setIsLoggedIn={setIsLoggedIn} /> */}
+        {/* <Navbar username={username} /> */}
+        <Navbar setIsLoggedIn={setIsLoggedIn} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductListing />} />
