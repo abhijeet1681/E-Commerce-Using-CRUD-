@@ -1,0 +1,29 @@
+.order-confirmation-page {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  .order-summary {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .order-summary ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .order-summary li {
+    margin-bottom: 10px;
+  }
+  
+  .total-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  

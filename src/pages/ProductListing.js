@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
-import { SearchContext } from "../context/SearchContext"; // Import the SearchContext
-import Footer from "../components/Footer"; // Import the Footer component
+import Footer from "../components/Footer";
 import "./ProductListing.css"; // Your CSS file for styling
 
 const ProductListing = () => {
@@ -16,7 +15,6 @@ const ProductListing = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { addToCart } = useContext(CartContext);
-  const { setSearchQuery: setSearchContextQuery } = useContext(SearchContext); // Use SearchContext for search functionality
 
   useEffect(() => {
     const fetchExchangeRate = async () => {
@@ -72,93 +70,97 @@ const ProductListing = () => {
     }, 3000);
   };
 
-  const handleSearch = () => {
-    setSearchContextQuery(searchQuery); // Update the search context
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   // Effect to filter products based on the search query and selected category
   useEffect(() => {
-    if (selectedCategory !== "all") {
-      setFilteredProducts((prevProducts) =>
-        prevProducts.filter((product) => product.category === selectedCategory)
-      );
-    }
-  }, [selectedCategory]);
+    const filterProducts = () => {
+      let filtered = filteredProducts;
+      if (selectedCategory !== "all") {
+        filtered = filtered.filter((product) => product.category === selectedCategory);
+      }
+      if (searchQuery) {
+        filtered = filtered.filter((product) =>
+          product.title.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+      setFilteredProducts(filtered);
+    };
+
+    filterProducts();
+  }, [selectedCategory, searchQuery, filteredProducts]);
 
   return (
     <div className="product-page">
-    <div className="product-listing">
-      <div className="filter-search-container">
-        <div className="filter-section">
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="filter-select"
-          >
-            {categories.map((category, index) => (
-              <option key={index} value={category}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </option>
-            ))}
-          </select>
+      <div className="product-listing">
+        <div className="filter-search-container">
+          <div className="filter-section">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="filter-select"
+            >
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category.charAt(0).toUpperCase() + category.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="search-section">
+            <input
+              type="text"
+              placeholder="Search products..."
+              value={searchQuery}
+              onChange={handleSearch}
+              className="search-input"
+            />
+          </div>
         </div>
-        <div className="search-section">
-          <input
-            type="text"
-            placeholder="Search products..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="search-input"
-          />
-          <button onClick={handleSearch} className="search-button">
-            Search
-          </button>
-        </div>
-      </div>
 
-      {showPopup && (
-        <div className="popup">
-          <p>{popupMessage}</p>
-        </div>
-      )}
+        {showPopup && (
+          <div className="popup">
+            <p>{popupMessage}</p>
+          </div>
+        )}
 
-      {loading ? (
-        <p>Loading products...</p>
-      ) : (
-        <div className="product-grid">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <div key={product.id} className="product-card">
-                <Link to={`/products/${product.id}`}>
-                  {/* Display a placeholder image if product.image is not valid */}
-                  <img
-                    src={
-                      product.image &&
-                      (product.image.startsWith("http") || product.image.startsWith("https"))
-                        ? product.image
-                        : "https://via.placeholder.com/150" // Fallback placeholder image
-                    }
-                    alt={product.title}
-                    className="product-image"
-                  />
-                </Link>
-                <div className="product-info">
-                  <h2 className="product-title">{product.title}</h2>
-                  <p className="product-price">
-                    ₹{(product.price * exchangeRate).toFixed(2)}
-                  </p>
+        {loading ? (
+          <p>Loading products...</p>
+        ) : (
+          <div className="product-grid">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product) => (
+                <div key={product.id} className="product-card">
+                  <Link to={`/products/${product.id}`}> 
+                    <img
+                      src={
+                        product.image &&
+                        (product.image.startsWith("http") || product.image.startsWith("https"))
+                          ? product.image
+                          : "https://via.placeholder.com/150" // Fallback placeholder image
+                      }
+                      alt={product.title}
+                      className="product-image"
+                    />
+                  </Link>
+                  <div className="product-info">
+                    <h2 className="product-title">{product.title}</h2>
+                    <p className="product-price">
+                      ₹{(product.price * exchangeRate).toFixed(2)}
+                    </p>
+                  </div>
+                  <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
                 </div>
-                <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
-              </div>
-            ))
-          ) : (
-            <p>No products match the selected filters.</p>
-          )}
-        </div>
-      )}
-      
-    </div>
-    <Footer /> {/* Add Footer component here */}
+              ))
+            ) : (
+              <p>No products match the selected filters.</p>
+            )}
+          </div>
+        )}
+      </div>
+      <Footer /> {/* Add Footer component here */}
     </div>
   );
 };

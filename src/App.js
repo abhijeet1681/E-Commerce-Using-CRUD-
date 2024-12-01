@@ -8,6 +8,8 @@ import ProductDetails from "./pages/ProductDetails";
 import About from './pages/About';
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Checkoutt from './components/Checkoutt';
+import OrderConfirmation from './pages/OrderConfirmation';
 import OrderSuccess from "./pages/OrderSuccess";  
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
@@ -20,6 +22,7 @@ function App() {
   const [ setUsername] = useState("");
 
   return (
+    
     <SearchProvider>
       <Router>
         {/* <Navbar username={username} /> */}
@@ -33,14 +36,19 @@ function App() {
           <Route path="/product-details/:productId" element={<ProductDetails />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} /> {/* 404 route */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkoutt" element={<Checkoutt />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation />} />
+    {/* Other routes */}
           <Route path="/order-success" element={<OrderSuccess />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
     </SearchProvider>
-  );
+    
+  );  
 }
 
 export default App;

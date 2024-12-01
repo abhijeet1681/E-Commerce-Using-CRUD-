@@ -17,6 +17,10 @@ const Checkout = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleCheckoutSuccess = (orderDetails) => {
+    navigate('/order-confirmation', { state: { orderDetails } });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Your order has been placed successfully!");
@@ -60,8 +64,20 @@ const Checkout = () => {
           <option value="COD">Cash on Delivery</option>
           {/* <option value="Credit Card">Credit Card</option> */}
         </select>
+        
         <button type="submit">Place Order</button>
       </form>
+      <div>
+      {/* Checkout logic and UI */}
+      <button onClick={() => handleCheckoutSuccess({ 
+        products: [/* products */],
+        totalAmount: 1000,
+        orderId: '12345',
+        estimatedDelivery: '15-12-2024'
+      })}>
+        Complete Purchase
+      </button>
+    </div>
     </div>
   );
 };
