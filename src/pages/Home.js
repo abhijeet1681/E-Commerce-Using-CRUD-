@@ -11,7 +11,7 @@ const Home = () => {
   const [reviews] = useState([
     { id: 1, user: "Virat Kohli", text: "Great products, fast delivery!", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqiLcH85KsPIY_7fCa_-amaizI1wLLhx076Q&s" },
     { id: 2, user: "Rohit Sharma", text: "Amazing quality and service.", image: "https://media.sportstiger.com/players/RohitSharma22-06-2021-05-10-26.png" },
-    { id: 3, user: "Sachin Tendular", text: "User-friendly website and great deals.", image: "https://www.looktothestars.org/photo/5984-sachin-tendulkar/teaser-1503129140.jpg" }
+    { id: 3, user: "Sachin Tendulkar", text: "User-friendly website and great deals.", image: "https://www.looktothestars.org/photo/5984-sachin-tendulkar/teaser-1503129140.jpg" }
   ]);
 
   const heroImages = [
@@ -28,6 +28,13 @@ const Home = () => {
     { id: 2, name: "Fashion", image: "https://i.ytimg.com/vi/HBXANI35Xlg/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLA752g6UpcYkH5us8AG-3nnqGG6pw" },
     { id: 3, name: "Home Appliances", image: "https://assets.indiadesire.com/images/Flipkart%20Grand%20Home%20Appliances%20Sale%20may%202024.jpg" },
     { id: 4, name: "Books", image: "https://rukminim2.flixcart.com/image/750/900/xif0q/diary-notebook/o/a/h/classmate-square-line-exercise-book-abc-season-store-original-imagshwzyxvxfyq7.jpeg?q=20&crop=false" },
+  ];
+
+  // Sample data for promotions
+  const promotions = [
+    { id: 1, title: "Winter Sale", details: "Up to 50% off on select items!", image: "https://static.vecteezy.com/system/resources/previews/012/990/072/non_2x/winter-sale-poster-free-vector.jpg" },
+    { id: 2, title: "New Arrivals", details: "Check out the latest products in our collection.", image: "https://img.freepik.com/premium-vector/new-arrival-banner-template-classic-blue-color_1361-2098.jpg?w=1380" },
+    { id: 3, title: "Flash Sale", details: "Limited time offer on trending products.", image: "https://www.shutterstock.com/image-vector/66-mid-year-sale-banner-260nw-2299992751.jpg" }
   ];
 
   useEffect(() => {
@@ -59,8 +66,7 @@ const Home = () => {
   return (
     <div className="home">
       {/* Hero Banner */}
-      <div className="hero-banner" style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}>
-      </div>
+      <div className="hero-banner" style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}></div>
 
       {/* Categories Section */}
       <div className="categories-section">
@@ -107,6 +113,20 @@ const Home = () => {
               <Link to={`/product-details/${product.id}`}>
                 <button>View Details</button>
               </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Promotions Section */}
+      <div className="promotions">
+        <h2>Current Promotions</h2>
+        <div className="promotions-grid">
+          {promotions.map((promo) => (
+            <div key={promo.id} className="promotion-card">
+              <img className="promotion-image" src={promo.image} alt={promo.title} />
+              <h3>{promo.title}</h3>
+              <p>{promo.details}</p>
             </div>
           ))}
         </div>

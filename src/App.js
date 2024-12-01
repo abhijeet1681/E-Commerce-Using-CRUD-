@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProductListing from "./pages/ProductListing";
 import ProductDetails from "./pages/ProductDetails";
+import About from './pages/About';
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";  
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductListing />} />
+          <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUsername={setUsername} />} />
           <Route path="/signup" element={<Signup setIsLoggedIn={isLoggedIn}  setUsername={setUsername} />} />
           <Route path="/product-details/:productId" element={<ProductDetails />} />
