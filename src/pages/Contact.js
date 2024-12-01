@@ -1,6 +1,7 @@
 // src/pages/Contact.js
 import React, { useState } from "react";
 import "./Contact.css"; // Import custom styling
+import Footer from "../components/Footer"; // Import the Footer component
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const Contact = () => {
   };
 
   return (
+    <div>
     <div className="contact-page">
       <h1>Contact Us</h1>
       <form onSubmit={handleSubmit} className="contact-form">
@@ -73,6 +75,8 @@ const Contact = () => {
           <p>Thank you for reaching out! We'll get back to you shortly.</p>
         </div>
       )}
+    </div>
+    <Footer />
     </div>
   );
 };

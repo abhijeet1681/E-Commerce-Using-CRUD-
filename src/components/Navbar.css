@@ -21,10 +21,16 @@
 }
 
 /* Navigation links */
+.navbar-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
 .nav-link {
   color: #000000;
   text-decoration: none;
-  margin: 0 10px;
   font-size: 1rem;
   font-weight: 500;
   transition: color 0.3s ease-in-out;
@@ -34,12 +40,7 @@
   color: #000000; /* Highlight on hover */
 }
 
-/* Center search bar */
-.navbar-center {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-}
+/* Welcome message */
 .welcome-message {
   margin-right: 1rem;
   font-size: 1rem;
@@ -47,6 +48,7 @@
   font-weight: bold;
 }
 
+/* Search bar */
 .search-bar {
   width: 50%;
   max-width: 500px;
@@ -67,6 +69,7 @@
 .navbar-right {
   display: flex;
   align-items: center;
+  gap: 15px;
 }
 
 .cart-link {
@@ -76,7 +79,6 @@
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
-  margin-left: 15px;
   transition: color 0.3s ease-in-out;
 }
 
@@ -87,4 +89,19 @@
 .cart-icon {
   margin-right: 5px;
   font-size: 1.2rem;
+}
+
+/* Logout button */
+.logout-button {
+  background-color: #0d1cf1;
+  color: #eeeff1;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #f0c000;
 }

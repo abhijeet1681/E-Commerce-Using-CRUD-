@@ -11,8 +11,8 @@ const Login = ({ setIsLoggedIn, setUsername }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const userName = "John Doe";
-    const userEmail = "johndoe@example.com";
+      const userName = "Abhijeet Jadhav";
+    const userEmail = "userEmail";
 
     localStorage.setItem("userName", userName);
     localStorage.setItem("userEmail", userEmail);

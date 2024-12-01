@@ -5,28 +5,38 @@ import Footer from "../components/Footer";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [extraProducts, setExtraProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // const [reviews, setReviews] = useState([
+  const [reviews] = useState([
+    { id: 1, user: "John", text: "Great products, fast delivery!" },
+    { id: 2, user: "Sarah", text: "Amazing quality and service." },
+    { id: 3, user: "Mike", text: "User-friendly website and great deals." }
+  ]);
 
   const heroImages = [
+    "https://rukminim1.flixcart.com/flap/1800/1800/image/ddbe8a22de89bf94.jpg",
+    "https://images.freekaamaal.com/post_images/1637727957.PNG",
+    "https://www.dawncrackers.com/crackers/1-online-fireworks.jpg",
+    "https://amoghatrading.com/images/amogha4.jpg",
+    "https://scontent.fbom22-1.fna.fbcdn.net/v/t39.30808-6/245311454_10159824857688559_3452217121803482403_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=9vFQZ8X3so0Q7kNvgFC0w4D&_nc_zt=23&_nc_ht=scontent.fbom22-1.fna&_nc_gid=AV8DKTc2knC2LKiocQonCft&oh=00_AYCy-z0c3fTfDfSqf8tkocCxmtNOW9IxXGCzthogxYvC2A&oe=67521758",
     "https://flipshope.com/blog/wp-content/uploads/2023/10/Flipkart-big-billion-days-date.jpg",
-    "https://cdn.flipshope.com/blog/wp-content/uploads/2023/12/Flipkart-New-year-sale.jpg",
-    "https://i.pinimg.com/736x/6e/22/7a/6e227ab8b1c3ce20db00c1a813b7bf05.jpg",
+  ];
+
+  const categories = [
+    { id: 1, name: "Electronics", image: "https://img.paisawapas.com/ovz3vew9pw/2024/11/22110833/flipkart-wishlist-PaisaWapas-Deal.jpg" },
+    { id: 2, name: "Fashion", image: "https://i.ytimg.com/vi/HBXANI35Xlg/hq720.jpg?sqp=-oaymwEXCK4FEIIDSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLA752g6UpcYkH5us8AG-3nnqGG6pw" },
+    { id: 3, name: "Home Appliances", image: "https://assets.indiadesire.com/images/Flipkart%20Grand%20Home%20Appliances%20Sale%20may%202024.jpg" },
+    { id: 4, name: "Books", image: "https://rukminim2.flixcart.com/image/750/900/xif0q/diary-notebook/o/a/h/classmate-square-line-exercise-book-abc-season-store-original-imagshwzyxvxfyq7.jpeg?q=20&crop=false" },
   ];
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response1 = await fetch("https://fakestoreapi.com/products");
-        const data1 = await response1.json();
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
 
-        const response2 = await fetch("https://dummyjson.com/products?limit=10");
-        const data2 = await response2.json();
-
-        setProducts(data1);
-        setExtraProducts(data2.products);
+        setProducts(data.slice(0, 10)); // Display only the first 10 products
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {
@@ -44,65 +54,82 @@ const Home = () => {
     return () => clearInterval(interval);
   }, [heroImages.length]);
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const filteredExtraProducts = extraProducts.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   if (loading) {
     return <p>Loading products, please wait...</p>;
   }
 
   return (
     <div className="home">
+      {/* Hero Banner */}
       <div
         className="hero-banner"
         style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
-      ></div>
+      >
+      </div>
 
+      {/* Categories Section */}
+      <div className="categories-section">
+        <h2>Shop by Categories</h2>
+        <div className="categories-grid">
+          {categories.map((category) => (
+            <div key={category.id} className="category-card">
+              <img src={category.image} alt={category.name} />
+              <h3>{category.name}</h3>
+              <Link to={`/products?category=${category.name}`}>
+                <button>Shop Now</button>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Featured Products */}
       <div className="featured-products">
-        <h2>{filteredProducts.length > 0 ? "Our Products" : "No Products Found"}</h2>
+        <h2>Our Products</h2>
         <div className="product-grid">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
-              <div key={product.id} className="product-card">
-                <img src={product.image} alt={product.title} />
-                <h3>{product.title}</h3>
-                <p>₹{(product.price * 80).toFixed(2)}</p>
-                <Link to={`/product-details/${product.id}`}>
-                  <button>View Details</button>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <p>No products match your search.</p>
-          )}
+          {products.map((product) => (
+            <div key={product.id} className="product-card">
+              <img src={product.image} alt={product.title} />
+              <h3>{product.title}</h3>
+              <p>₹{(product.price * 80).toFixed(2)}</p>
+              <Link to={`/product-details/${product.id}`}>
+                <button>View Details</button>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="extra-products">
-        <h2>{filteredExtraProducts.length > 0 ? "More Products" : "No More Products Found"}</h2>
-        <div className="product-grid">
-          {filteredExtraProducts.length > 0 ? (
-            filteredExtraProducts.map((product) => (
-              <div key={product.id} className="product-card">
-                <img src={product.thumbnail} alt={product.title} />
-                <h3>{product.title}</h3>
-                <p>₹{(product.price * 80).toFixed(2)}</p>
-                <Link to={`/product-details/${product.id}`}>
-                  <button>View Details</button>
-                </Link>
-              </div>
-            ))
-          ) : (
-            <p>No more products match your search.</p>
-          )}
+      {/* New Arrivals */}
+      <div className="new-arrivals">
+        <h2>New Arrivals</h2>
+        <div className="new-arrivals-grid">
+          {products.slice(0, 4).map((product) => (
+            <div key={product.id} className="product-card">
+              <img src={product.image} alt={product.title} />
+              <h3>{product.title}</h3>
+              <p>₹{(product.price * 80).toFixed(2)}</p>
+              <Link to={`/product-details/${product.id}`}>
+                <button>View Details</button>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
 
+      {/* User Reviews */}
+      <div className="user-reviews">
+        <h2>What Our Customers Are Saying</h2>
+        <div className="reviews-grid">
+          {reviews.map((review) => (
+            <div key={review.id} className="review-card">
+              <p><strong>{review.user}:</strong> {review.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer */}
       <Footer />
     </div>
   );

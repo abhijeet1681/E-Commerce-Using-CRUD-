@@ -5,6 +5,7 @@ import Footer from "../components/Footer"; // Import the Footer component
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [name, setName] = useState(""); // Added state for name
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -20,12 +21,14 @@ const Signup = () => {
       return;
     }
 
-    if (email && password) {
+    if (name && email && password) {
       // Store user information in localStorage
+      localStorage.setItem("userName", name); // Save the name
       localStorage.setItem("userEmail", email);
       localStorage.setItem("userPassword", password);
 
       setSuccessMessage("Signup successful! You can now log in.");
+      setName("");
       setEmail("");
       setPassword("");
       setConfirmPassword("");
@@ -40,10 +43,21 @@ const Signup = () => {
   };
 
   return (
+    <div>
     <div className="signup-page">
       <div className="signup-container">
         <h1>Sign Up</h1>
         <form className="signup-form" onSubmit={handleSignup}>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          </div>
           <div className="form-group">
             <label>Email</label>
             <input
@@ -79,7 +93,8 @@ const Signup = () => {
           <button type="submit" className="signup-button">Sign Up</button>
         </form>
       </div>
-      <Footer /> {/* Add the Footer here */}
+      </div>
+      <Footer />
     </div>
   );
 };

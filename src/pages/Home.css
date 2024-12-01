@@ -2,8 +2,9 @@
 .hero-banner {
   background: url("https://cdn.flipshope.com/blog/wp-content/uploads/2023/12/Flipkart-New-year-sale.jpg") no-repeat center center/cover;
   color: white;
-  /* text-align: center; */
   padding: 220px 20px;
+  text-align: center;
+  position: relative;
 }
 
 .hero-content h1 {
@@ -29,87 +30,167 @@
   background-color: #e64e2e;
 }
 
-/* Search Bar */
-.search-bar {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.search-bar input {
-  width: 50%;
-  padding: 10px;
-  border: 1px solid #da0a0a;
-  border-radius: 5px;
-  font-size: 1rem;
-}
-
-/* Advertisement */
-.advertisement {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+/* Categories Section */
+.categories-section {
   padding: 20px;
-  margin: 20px auto;
-  background-color: #f8f9fa;
+  background-color: #f9f9f9;
+  text-align: center;
 }
 
-.advertisement-text h2 {
-  font-size: 2rem;
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
-.advertisement-text p {
+.category-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  transition: transform 0.2s ease-in-out;
+  text-align: center;
+  cursor: pointer;
+}
+
+.category-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.category-card h3 {
   font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+}
+
+/* New Arrivals Section */
+.new-arrivals {
+  padding: 20px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.new-arrivals h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+.new-arrivals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+/* User Reviews */
+.user-reviews {
+  padding: 20px;
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.user-reviews h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.reviews-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.review-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  text-align: left;
+}
+
+.review-card p {
+  font-size: 1rem;
+  color: #555;
 }
 
 /* Product Grid */
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
   padding: 20px;
 }
 
 .product-card {
-  background: white;
+  background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 10px;
-  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  width: 250px;
+  transition: transform 0.3s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }
 
 .product-card img {
   max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  max-height: 150px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 10px;
 }
 
 .product-card h3 {
-  font-size: 1.2rem;
+  font-size: 18px;
   margin: 10px 0;
+  color: #333;
 }
 
 .product-card p {
-  font-size: 1rem;
-  color: #333;
-  margin-bottom: 10px;
+  font-size: 16px;
+  color: #888;
+  margin-bottom: 15px;
 }
 
 .product-card button {
-  background-color: #28a745;
+  padding: 10px 15px;
+  background-color: #007bff;
   color: white;
-  padding: 8px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
+  transition: background-color 0.3s;
 }
 
 .product-card button:hover {
-  background-color: #218838;
+  background-color: #0056b3;
+}
+
+/* General Styling */
+h2, h3 {
+  color: #333;
+}
+
+p {
+  color: #666;
+}
+
+button {
+  transition: background-color 0.3s, transform 0.2s;
 }
