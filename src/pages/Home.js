@@ -7,11 +7,11 @@ const Home = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  // const [reviews, setReviews] = useState([
+
   const [reviews] = useState([
-    { id: 1, user: "John", text: "Great products, fast delivery!" },
-    { id: 2, user: "Sarah", text: "Amazing quality and service." },
-    { id: 3, user: "Mike", text: "User-friendly website and great deals." }
+    { id: 1, user: "Virat Kohli", text: "Great products, fast delivery!", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqiLcH85KsPIY_7fCa_-amaizI1wLLhx076Q&s" },
+    { id: 2, user: "Rohit Sharma", text: "Amazing quality and service.", image: "https://media.sportstiger.com/players/RohitSharma22-06-2021-05-10-26.png" },
+    { id: 3, user: "Sachin Tendular", text: "User-friendly website and great deals.", image: "https://www.looktothestars.org/photo/5984-sachin-tendulkar/teaser-1503129140.jpg" }
   ]);
 
   const heroImages = [
@@ -35,7 +35,6 @@ const Home = () => {
       try {
         const response = await fetch("https://fakestoreapi.com/products");
         const data = await response.json();
-
         setProducts(data.slice(0, 10)); // Display only the first 10 products
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -43,7 +42,6 @@ const Home = () => {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -61,10 +59,7 @@ const Home = () => {
   return (
     <div className="home">
       {/* Hero Banner */}
-      <div
-        className="hero-banner"
-        style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}
-      >
+      <div className="hero-banner" style={{ backgroundImage: `url(${heroImages[currentImageIndex]})` }}>
       </div>
 
       {/* Categories Section */}
@@ -123,7 +118,10 @@ const Home = () => {
         <div className="reviews-grid">
           {reviews.map((review) => (
             <div key={review.id} className="review-card">
-              <p><strong>{review.user}:</strong> {review.text}</p>
+              <img className="reviewer-image" src={review.image} alt={review.user} />
+              <div className="review-text">
+                <p><strong>{review.user}:</strong> {review.text}</p>
+              </div>
             </div>
           ))}
         </div>
