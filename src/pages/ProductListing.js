@@ -2,9 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import Footer from "../components/Footer";
-import "./ProductListing.css"; // Your CSS file for styling
+import "./ProductListing.css";
 
 const ProductListing = () => {
+  const [allProducts, setAllProducts] = useState([]); // Master product list
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -19,9 +20,7 @@ const ProductListing = () => {
   useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
-        const response = await fetch(
-          "https://api.exchangerate-api.com/v4/latest/USD"
-        );
+        const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
         const data = await response.json();
         setExchangeRate(data.rates.INR);
       } catch (error) {
@@ -31,23 +30,13 @@ const ProductListing = () => {
 
     const fetchProducts = async () => {
       try {
-        const responses = await Promise.all([
-          fetch("https://fakestoreapi.com/products"),
-          fetch("https://dummyjson.com/products"),
-        ]);
-        const data = await Promise.all(responses.map((res) => res.json()));
-        const allProducts = [
-          ...data[0], // Products from fakestoreapi
-          ...data[1].products, // Products from dummyjson
-        ];
-
-        // Set filteredProducts to all products initially
-        setFilteredProducts(allProducts);
-
-        // Extract unique categories
+        const response = await fetch("https://fakestoreapi.com/products");
+        const data = await response.json();
+        setAllProducts(data); // Populate master product list
+        setFilteredProducts(data); // Initialize filtered list
         const uniqueCategories = [
           "all",
-          ...new Set(allProducts.map((product) => product.category || "Others")),
+          ...new Set(data.map((product) => product.category || "Others")),
         ];
         setCategories(uniqueCategories);
       } catch (error) {
@@ -71,35 +60,43 @@ const ProductListing = () => {
   };
 
   const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+
+    if (query.trim() === "") {
+      // Show all products if search query is empty
+      setFilteredProducts(allProducts);
+    } else {
+      // Filter products based on search query
+      const filtered = allProducts.filter((product) =>
+        product.title.toLowerCase().includes(query)
+      );
+      setFilteredProducts(filtered);
+    }
   };
 
-  // Effect to filter products based on the search query and selected category
-  useEffect(() => {
-    const filterProducts = () => {
-      let filtered = filteredProducts;
-      if (selectedCategory !== "all") {
-        filtered = filtered.filter((product) => product.category === selectedCategory);
-      }
-      if (searchQuery) {
-        filtered = filtered.filter((product) =>
-          product.title.toLowerCase().includes(searchQuery.toLowerCase())
-        );
-      }
-      setFilteredProducts(filtered);
-    };
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
 
-    filterProducts();
-  }, [selectedCategory, searchQuery, filteredProducts]);
+    if (category === "all") {
+      // Reset to all products for "all" category
+      setFilteredProducts(allProducts);
+    } else {
+      const filtered = allProducts.filter((product) => product.category === category);
+      setFilteredProducts(filtered);
+    }
+  };
 
   return (
     <div className="product-page">
       <div className="product-listing">
         <div className="filter-search-container">
+          {/* Filter by Category */}
           <div className="filter-section">
             <select
               value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={handleCategoryChange}
               className="filter-select"
             >
               {categories.map((category, index) => (
@@ -109,6 +106,8 @@ const ProductListing = () => {
               ))}
             </select>
           </div>
+
+          {/* Search Products */}
           <div className="search-section">
             <input
               type="text"
@@ -133,13 +132,13 @@ const ProductListing = () => {
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <div key={product.id} className="product-card">
-                  <Link to={`/products/${product.id}`}> 
+                  <Link to={`/products/${product.id}`}>
                     <img
                       src={
                         product.image &&
                         (product.image.startsWith("http") || product.image.startsWith("https"))
                           ? product.image
-                          : "https://via.placeholder.com/150" // Fallback placeholder image
+                          : "https://via.placeholder.com/150"
                       }
                       alt={product.title}
                       className="product-image"
@@ -160,7 +159,7 @@ const ProductListing = () => {
           </div>
         )}
       </div>
-      <Footer /> {/* Add Footer component here */}
+      <Footer />
     </div>
   );
 };

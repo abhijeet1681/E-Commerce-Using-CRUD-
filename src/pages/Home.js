@@ -8,6 +8,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+
   const [reviews] = useState([
     { id: 1, user: "Virat Kohli", text: "Great products, fast delivery!", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqiLcH85KsPIY_7fCa_-amaizI1wLLhx076Q&s" },
     { id: 2, user: "Rohit Sharma", text: "Amazing quality and service.", image: "https://media.sportstiger.com/players/RohitSharma22-06-2021-05-10-26.png" },
